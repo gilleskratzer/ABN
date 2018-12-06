@@ -8,13 +8,13 @@ mydat<-ex0.dag.data[,c("b1","b2","b3","g1","b4","p2","p4")]
 
 Setup distribution list for each node 
 
-```{r}
+```ruby
 mydists<-list(b1="binomial", b2="binomial", b3="binomial", g1="gaussian", b4="binomial", p2="poisson", p4="poisson" )
 ```
 
 Define model 
 
-```{r}
+```ruby
 mydag<-matrix(data=c( 0,0,1,0,0,0,0, # b1<-b3 
 1,0,0,0,0,0,0, # b2<-b1 
 0,0,0,0,0,0,0, # 
