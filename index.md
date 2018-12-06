@@ -7,7 +7,8 @@ This site provides some [cookbook](#Quickstart) type examples of how to perform 
 If you have any problems or questions about using the abn library or generally about Bayesian network modelling then please drop me an email marta.pittavino@unige.ch. Further contact details: University of Zurich, Applied Statistics Group and abn R package.
 
 *Website and R package’s contributors:*
-*Gilles Kratzer, Marta Pittavino, Fraser Lewis and Reinhard Furrer*
+
+*[Gilles Kratzer](https://gilleskratzer.netlify.com/), Marta Pittavino, Fraser Lewis and [Reinhard Furrer](https://user.math.uzh.ch/furrer/)*
 
 # Installation
 
@@ -20,6 +21,9 @@ install.packages("abn")
 However further [libraries](getting_started.md) could be necessary to best profit from the abn features.
 
 # Quickstart
+
+The following [examples](quickstart_examples.md) provide simple illustrations of how to perform data analyses using additive Bayesian networks with abn ( [installation instructions](getting_started.md)). The data sets used here are provided with abn. Many more examples are given at the end of the relevant manual pages in R, e.g. see ?fitabn, ?buildscorecache, ?mostprobable, ?search.hillclimber. More realistic examples are given in case studies.
+
 # Literature
 # Case studies
 # Quality assurance
