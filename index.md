@@ -17,7 +17,7 @@ abn R package can easily be installed from [CRAN](https://CRAN.R-project.org/pac
 install.packages("abn")
 ```
 
-However further [libraries]() could be necessary to best profit from the abn features.
+However further [libraries](getting_started.md) could be necessary to best profit from the abn features.
 
 # Quickstart
 # Literature
