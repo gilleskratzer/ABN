@@ -14,7 +14,7 @@ mydists<-list(b1="binomial", b2="binomial", b3="binomial", g1="gaussian", b4="bi
 
 Define model 
 
---
+```{r}
 mydag<-matrix(data=c( 0,0,1,0,0,0,0, # b1<-b3 
 1,0,0,0,0,0,0, # b2<-b1 
 0,0,0,0,0,0,0, # 
@@ -24,7 +24,7 @@ mydag<-matrix(data=c( 0,0,1,0,0,0,0, # b1<-b3
 0,0,0,0,0,0,0 # 
 ), byrow=TRUE,ncol=7)
 colnames(mydag)<-rownames(mydag)<-names(mydat)
---
+```
 
 Fit the model to calculate the log marginal likelihood goodness of fit
 
