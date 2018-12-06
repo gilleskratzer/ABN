@@ -20,7 +20,7 @@ If you have any problems or questions about using the abn library or generally a
 
 abn R package can easily be installed from [CRAN](https://CRAN.R-project.org/package=abn) using:
 
-```{r}
+```r
 install.packages("abn")
 ```
 
