@@ -10,6 +10,15 @@ If you have any problems or questions about using the abn library or generally a
 *Gilles Kratzer, Marta Pittavino, Fraser Lewis and Reinhard Furrer*
 
 # Installation
+
+abn R package can easily be installed from [CRAN](https://CRAN.R-project.org/package=abn) using:
+
+```{r}
+install.packages("abn")
+```
+
+However further [libraries]() could be necessary to best profit from the abn features.
+
 # Quickstart
 # Literature
 # Case studies
