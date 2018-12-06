@@ -2,4 +2,4 @@ theme: jekyll-theme-leap-day
 highlighter: rouge
 
 title: Additive Bayesian Network Modelling in R
-description: Bayesian network analysis is a form of probabilistic graphical models which derives from empirical data a directed acyclic graph, DAG, describing the dependency structure between random variables.
+description: Bayesian network analysis is a form of probabilistic graphical models which derives from empirical data a directed acyclic graph (DAG)
