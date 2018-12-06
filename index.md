@@ -1,7 +1,7 @@
 # Introduction
 
 [![](https://cranlogs.r-pkg.org/badges/abn)](https://cran.rstudio.com/web/packages/abn/index.html)
-
+[![](https://www.r-pkg.org/badges/version/abn)](https://www.r-pkg.org/badges/version/abn/index.html)
 
 Bayesian network modelling is a data analysis technique which is ideally suited to messy, complex data. This methodology is rather distinct from other forms of statistical modelling in that its focus is on **structure discovery** – determining an optimal graphical model which describes the inter-relationships in the underlying processes which generated the study data. It is, by construction, a **multivariate** technique and can used for one or many dependent variables. The key point of note here is that such graphical models are derived empirically from observed data, as opposed to, for example, relying only on subjective expert opinion to determine how variables of interest are inter-related. An example can be found in the [American Journal of Epidemiology](http://aje.oxfordjournals.org/content/176/11/1051.abstract) where this approach was used to investigate risk factors for child diarrhoea. A special issue of [Preventive Veterinary Medicine](http://www.sciencedirect.com/science/journal/01675877/110/1) on graphical modelling features a number of articles which use abn for fitting additive Bayesian network models to epidemiological data. An introduction to this methodology can also be found in [Emerging Themes in Epidemiology](http://www.ete-online.com/content/10/1/4).
 
