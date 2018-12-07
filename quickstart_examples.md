@@ -41,7 +41,7 @@ myres.c <- fitabn(dag.m=mydag,data.df=mydat,data.dists=mydists)
 print(myres.c$mlik)
 ```
 
-# Examine the parameter estimates in additive Bayesian network
+# Examine the parameter estimates
 
 In this example, we will additionally examinate the computed marginals. Take a subset of cols from dataset `ex0.dat.data` (provided with abn)
 
@@ -95,7 +95,7 @@ plot(myres.c$marginals$g1[["g1|b4"]],type="b",xlab="g1|b4",main="Node g1, parame
 
 ![](Material/Plot/introfig1.png)
 
-# Find the best fitting graphical structure for an additive Bayesian network using an exact search
+# Find the best fitting graphical structure using an exact search
 
 This dataset comes with abn see `?ex1.dag.data`:
 
@@ -144,8 +144,9 @@ myres <- fitabn(dag.m=mp.dag,data.df=mydat,data.dists=mydists,create.graph=TRUE)
 plot(myres$graph)
 ```
 
+![](Material/Plot/mpgraph.png)
 
-# Find the best fitting graphical structure for an additive Bayesian network using a heuristic search
+# Find the best fitting graphical structure using a heuristic search
 
 This dataset comes with abn see ?ex1.dag.data
 
@@ -195,3 +196,5 @@ tographviz(dag.m=heur.res$consensus,data.df=mydat,data.dists=mydists,outfile="gr
 ```
 
 Then process using graphviz tools e.g. on linux `system("dot -Tpdf -o graphcon.pdf graphcon.dot")` and `system("evince graphcon.pdf")`. Note the .dot file created can be easily edited manually to provide custom shapes, colours etc. 
+
+![](Material/Plot/graphcon2.png)
