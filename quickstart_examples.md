@@ -76,7 +76,7 @@ mydag <- matrix(data=c(
 colnames(mydag) <- rownames(mydag) <- names(mydat)
 ```
 
-Now fit the model to calculate its goodness of fit
+Now fit the model to calculate its goodness of fit:
 
 ```r
 myres.c <- fitabn(dag.m=mydag,data.df=mydat,data.dists=mydists,compute.fixed=TRUE)
@@ -93,16 +93,17 @@ plot(myres.c$marginals$b1[["b1|(Intercept)"]],type="b",xlab="b1|(Intercept)", ma
 plot(myres.c$marginals$g1[["g1|b4"]],type="b",xlab="g1|b4",main="Node g1, parameter b4",pch="+",col="orange")
 ```
 
-![](Material/Plot/introfig1.jpg)
+![](Material/Plot/introfig1.png)
 
 # Find the best fitting graphical structure for an additive Bayesian network using an exact search
 
-This dataset comes with abn see ?ex1.dag.data
+This dataset comes with abn see `?ex1.dag.data`:
 
 ```r
 mydat <- ex1.dag.data 
 ```
-Setup distribution list for each node 
+
+Setup distribution list for each node:
 
 ```r
 mydists <- list(b1="binomial", 
@@ -123,12 +124,12 @@ Set the parent limits nodewise:
 max.par <- list("b1"=4,"p1"=4,"g1"=4,"b2"=4,"p2"=4,"b3"=4,"g2"=4,"b4"=4,"b5"=4,"g3"=4)
 ```
 
-Build cache 
+Build the score cache:
 
 ```r
-mycache <- buildscorecache(data.df=mydat, 
-data.dists=mydists,
-max.parents=max.par)
+mycache <- buildscorecache(data.df = mydat, 
+data.dists = mydists,
+max.parents = max.par)
 ```
 
 Find the globally best DAG. Fit the model and plot it (rquires `Rgraphviz`)
