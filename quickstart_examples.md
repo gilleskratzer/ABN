@@ -195,6 +195,6 @@ For publication quality output for the consensus network use graphviz
 tographviz(dag.m=heur.res$consensus,data.df=mydat,data.dists=mydists,outfile="graphcon.dot"); 
 ```
 
-Then process using graphviz tools e.g. on linux `system("dot -Tpdf -o graphcon.pdf graphcon.dot")` and `system("evince graphcon.pdf")`. Note the .dot file created can be easily edited manually to provide custom shapes, colours etc. 
+Then process using graphviz tools. e.g. on linux `system("dot -Tpdf -o graphcon.pdf graphcon.dot")` and `system("evince graphcon.pdf")`. Note that the .dot file created can be edited manually to provide custom shapes, colours etc ... 
 
 ![](Material/Plot/graphcon2.png)
