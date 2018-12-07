@@ -1,12 +1,12 @@
 # Fit an additive Bayesian network to data
 
-In this example, a given DAG will be fitted using abn. Take a subset of colomns from dataset `ex0.dat.data` (provided with abn):
+In this example, a given DAG will be fitted using abn. Take a subset of columns from dataset `ex0.dat.data` (provided with abn):
 
 ```r
 mydat <- ex0.dag.data[,c("b1","b2","b3","g1","b4","p2","p4")]
 ```
 
-Setup distribution list for each node: 
+Set up distribution list for each node: 
 
 ```r
 mydists <- list(b1="binomial",
@@ -43,13 +43,13 @@ print(myres.c$mlik)
 
 # Examine the parameter estimates
 
-In this example, we will additionally examinate the computed marginals. Take a subset of cols from dataset `ex0.dat.data` (provided with abn)
+In this example, we will additionally examine the computed marginals. Take a subset of cols from dataset `ex0.dat.data` (provided with abn)
 
 ```r
 mydat <- ex0.dag.data[,c("b1","b2","b3","g1","b4","p2","p4")]
 ```
 
-Setup distribution list for each node:
+Set up distribution list for each node:
 
 ```r
 mydists <- list(b1="binomial", 
@@ -84,7 +84,7 @@ myres.c <- fitabn(dag.m=mydag,data.df=mydat,data.dists=mydists,compute.fixed=TRU
 print(names(myres.c$marginals))
 ```
 
-Gives a list of all posterior densities. Plot some of the marginal posterior densities - note that, by default, all variables are standarized. 
+Gives a list of all posterior densities. Plot some of the marginal posterior densities - note that, by default, all variables are standardized. 
 
 ```r
 par(mfrow=c(1,2))
@@ -103,7 +103,7 @@ This dataset comes with abn see `?ex1.dag.data`:
 mydat <- ex1.dag.data 
 ```
 
-Setup distribution list for each node:
+Set up distribution list for each node:
 
 ```r
 mydists <- list(b1="binomial", 
@@ -118,7 +118,7 @@ b5="binomial",
 g3="gaussian" ) 
 ```
 
-Set the parent limits nodewise:
+Set the parent limits node-wise:
 
 ```r
 max.par <- list("b1"=4,"p1"=4,"g1"=4,"b2"=4,"p2"=4,"b3"=4,"g2"=4,"b4"=4,"b5"=4,"g3"=4)
@@ -132,7 +132,7 @@ data.dists = mydists,
 max.parents = max.par)
 ```
 
-Find the globally best DAG. Fit the model and plot it (rquires `Rgraphviz`)
+Find the globally best DAG. Fit the model and plot it (requires `Rgraphviz`)
 
 ```r
 mp.dag <- mostprobable(score.cache=mycache)
@@ -154,7 +154,7 @@ This dataset comes with abn see ?ex1.dag.data
 mydat <- ex1.dag.data 
 ```
 
-Setup distribution list for each node 
+Set up distribution list for each node 
 
 ```r
 mydists <- list(b1="binomial", 
