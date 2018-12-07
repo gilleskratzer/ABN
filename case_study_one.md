@@ -1,6 +1,6 @@
 # Overview
 
-This case study uses data set `ex5.dag.data` provided with [abn](https://CRAN.R-project.org/package=abn) which comprises of 434 observations across 18 variables, 6 binary and 12 continuous, and one grouping variable.
+This case study uses data set *ex5.dag.data* provided with [abn](https://CRAN.R-project.org/package=abn) which comprises of 434 observations across 18 variables, 6 binary and 12 continuous, and one grouping variable.
 
 Variables b1 and b2 were formed by taking a variable with three categories and splitting it into two binary variables. To include such multinomial variables in [abn](https://CRAN.R-project.org/package=abn) one must first split these variables into separate binary variables, e.g. each denoting categories such as *{Yes, Not Yes}*, *{No, Not No}*, *{Dont Know, Not Dont Know}* etc. This is more flexible than usual nominal regression since other variables can now have completely different effects on each different category (as opposed to something like a proportional odds assumption). This does, however, have two consequences:
 1. it can greatly add to the dimension of the model which can be a limiting factor
@@ -17,11 +17,11 @@ As a very rough rule of thumb if there are less than 20 variables (and no random
 There are two main things which need to be checked in the data before it can be used with any of the [abn](https://CRAN.R-project.org/package=abn) model fitting functions.
 
 1. All records with missing variables must be either removed or imputed. There is a range of libraries available from CRAN for completing missing values using approaches such as multiple imputation. Ideally, marginalising over the missing values is preferable (as opposed completing them as this then results in essentially dealing with models of models), but this is far from trivial here and not yet (and may never be) implemented in [abn](https://CRAN.R-project.org/package=abn). To remove all records with one or more missing values then code similar to the following probably suffices
-`ex5.dag.data[complete.cases(ex5.dag.data),]`
+*ex5.dag.data[complete.cases(ex5.dag.data),]*
 
 2. All variables which are to be treated as binary must be coerced to factors. To coerce an existing variable into a factor then
-`ex5.dag.data[,1]<-as.factor(ex5.dag.data[,1])` coerces the first variable in data.frame `ex5.dag.data`. The levels (labels of the factor) can be anything provided there are only two and a *success* here is take to be the second level. For example, the second value in the vector returned by
-`levels(ex5.dag.data[,1])`
+*ex5.dag.data[,1]<-as.factor(ex5.dag.data[,1])* coerces the first variable in data.frame *ex5.dag.data*. The levels (labels of the factor) can be anything provided there are only two and a *success* here is take to be the second level. For example, the second value in the vector returned by
+*levels(ex5.dag.data[,1])*
 
 To include additional variables in the modeling, for example interaction terms or polynomials, then these must be created manually and included into the data.frame just like any other variable.
 
@@ -62,7 +62,7 @@ banned<-matrix(c(
 colnames(banned)<-rownames(banned)<-names(mydat);
 ```
 
-The retain matrix is not constrained i.e a zero matrix (one could also use `NULL`).
+The retain matrix is not constrained i.e a zero matrix (one could also use *NULL*).
 
 ```r
 retain<-matrix(c(
@@ -122,9 +122,9 @@ mycache.1par <- buildscorecache(data.df=mydat,data.dists=mydists, max.parents=1,
 mp.dag <- mostprobable(score.cache=mycache.1par)
 ```
 
-We want to find the DAG with the best goodness of fit (network score - log marginal likelihood) and ideally we would search for this without any a priori complexity limit (max number of parents). However, this may be both not computationally feasible and also highly inefficient. For example, with 434 observation is it really realistic to consider models with up to 17 covariates per node? One heuristic approach is to start off with an a priori limit of one parent per node, find the best DAG, and then repeat an identical search process (again using functions `buildscorecache()` and `mostprobable()`) with an increasing parent limit. Then stopping when the network score reach a plateau.
+We want to find the DAG with the best goodness of fit (network score - log marginal likelihood) and ideally we would search for this without any a priori complexity limit (max number of parents). However, this may be both not computationally feasible and also highly inefficient. For example, with 434 observation is it really realistic to consider models with up to 17 covariates per node? One heuristic approach is to start off with an a priori limit of one parent per node, find the best DAG, and then repeat an identical search process (again using functions *buildscorecache()* and *mostprobable()*) with an increasing parent limit. Then stopping when the network score reach a plateau.
 
-These initial searches can be parallelised, although whether this is worth the extra hassle depends on how many variables are present and what computing facilities are available. The run time for the `mostprobable()` function increases very considerably with the number of parents. The abn library does not include any implicit parallelisation. While it lacks the conceptual elegance of multi-threading, simply task farming jobs on separate cpus using R CMD BATCH is by far the most computationally efficient solution here. This can also easily be achieved on a cluster via an MPI C wrapper (e.g. run many parallel R CMD BATCH jobs). Many systems use MPI and as such some standard code can be used here (but there is usually a local submission script required for the scheduling engine).
+These initial searches can be parallelised, although whether this is worth the extra hassle depends on how many variables are present and what computing facilities are available. The run time for the *mostprobable()* function increases very considerably with the number of parents. The abn library does not include any implicit parallelisation. While it lacks the conceptual elegance of multi-threading, simply task farming jobs on separate cpus using R CMD BATCH is by far the most computationally efficient solution here. This can also easily be achieved on a cluster via an MPI C wrapper (e.g. run many parallel R CMD BATCH jobs). Many systems use MPI and as such some standard code can be used here (but there is usually a local submission script required for the scheduling engine).
 
 Sample code which can be used on a cluster to parallelise searches for parent limits 2 through 9 can be found [here](https://gilleskratzer.github.io/ABN/material/Rcode/search_code.tar.gz). This comprises of 8 R scripts plus an MPI C wrapper (which needs to be compiled on the cluster using an appropriate compiler like mpicc). The compiled wrapper is the program actually submitted to the cluster. I used 8 different parent limits here as the cluster I use is built from compute nodes of 8 cores each and so it makes most sense to run parallel tasks in multiples of 8. I could have ran parent limits 1 through 16 but this is likely wasteful since I don’t expect the data to support so many parents.
 
