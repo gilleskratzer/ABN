@@ -1,3 +1,6 @@
+![](Material/Image/cropped-web_image.jpg)
+
+
 # Introduction
 [abn](https://CRAN.R-project.org/package=abn) metrics from the R Studio CRAN Mirror:
 
