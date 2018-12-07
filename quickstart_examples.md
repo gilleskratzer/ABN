@@ -1,12 +1,12 @@
 # Fit an additive Bayesian network to data
 
-Take a subset of cols from dataset ex0.dat.data:
+In this example, a given DAG will be fitted using abn. Take a subset of colomns from dataset `ex0.dat.data` (provided with abn):
 
 ```r
 mydat <- ex0.dag.data[,c("b1","b2","b3","g1","b4","p2","p4")]
 ```
 
-Setup distribution list for each node 
+Setup distribution list for each node: 
 
 ```r
 mydists <- list(b1="binomial",
@@ -18,7 +18,7 @@ p2="poisson",
 p4="poisson" )
 ```
 
-Define model 
+Define a model:
 
 ```r
 mydag <- matrix(data=c( 0,0,1,0,0,0,0, # b1<-b3 
@@ -33,7 +33,7 @@ mydag <- matrix(data=c( 0,0,1,0,0,0,0, # b1<-b3
 colnames(mydag) <- rownames(mydag) <- names(mydat)
 ```
 
-Fit the model to calculate the log marginal likelihood goodness of fit
+Fit the model to calculate the log marginal likelihood goodness of fit:
 
 ```r
 myres.c <- fitabn(dag.m=mydag,data.df=mydat,data.dists=mydists)
@@ -43,13 +43,13 @@ print(myres.c$mlik)
 
 # Examine the parameter estimates in additive Bayesian network
 
-Take a subset of cols from dataset ex0.dat.data
+In this example, we will additionally examinate the computed marginals. Take a subset of cols from dataset `ex0.dat.data` (provided with abn)
 
 ```r
 mydat <- ex0.dag.data[,c("b1","b2","b3","g1","b4","p2","p4")]
 ```
 
-Setup distribution list for each node 
+Setup distribution list for each node:
 
 ```r
 mydists <- list(b1="binomial", 
@@ -61,7 +61,7 @@ p2="poisson",
 p4="poisson")
 ```
 
-Define a model 
+Define a model:
 
 ```r
 mydag <- matrix(data=c(
@@ -84,7 +84,7 @@ myres.c <- fitabn(dag.m=mydag,data.df=mydat,data.dists=mydists,compute.fixed=TRU
 print(names(myres.c$marginals))
 ```
 
-Gives a list of all the posterior densities. Plot some of the marginal posterior densities - note by default all variables are standarized. 
+Gives a list of all posterior densities. Plot some of the marginal posterior densities - note that, by default, all variables are standarized. 
 
 ```r
 par(mfrow=c(1,2))
@@ -92,6 +92,8 @@ plot(myres.c$marginals$b1[["b1|(Intercept)"]],type="b",xlab="b1|(Intercept)", ma
 
 plot(myres.c$marginals$g1[["g1|b4"]],type="b",xlab="g1|b4",main="Node g1, parameter b4",pch="+",col="orange")
 ```
+
+![](Material/Plot/introfig1.jpg)
 
 # Find the best fitting graphical structure for an additive Bayesian network using an exact search
 

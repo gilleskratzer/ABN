@@ -29,7 +29,7 @@ However further [libraries](getting_started.md) could be necessary to best profi
 
 # Quickstart
 
-[Simple examples](quickstart_examples.md) provide illustrations of how to perform data analyses using additive Bayesian networks with abn ( [installation procedure](getting_started.md)). The data sets used are provided with abn. Many more examples are given at the end of the relevant manual pages in R, e.g. see ?fitabn, ?buildscorecache, ?mostprobable, ?search.hillclimber. More realistic examples are given in [case studies](#case_studies).
+[Simple examples](quickstart_examples.md) provide illustrations of how to perform data analyses using additive Bayesian networks with abn ( [installation procedure](getting_started.md)). The data sets used are provided with abn. Many more examples are given at the end of the relevant manual pages in R, e.g. see `?fitabn`, `?buildscorecache`, `?mostprobable`, `?search.hillclimber`. More realistic examples are given in [case studies](#case_studies).
 
 ***
 
@@ -43,6 +43,7 @@ Typical BN models involving binary nodes, arguably the most commonly used type o
 
 ### Technical articles
 
+- Kratzer et al. (2018): [Comparison between Suitable Priors for Additive Bayesian Networks](https://arxiv.org/pdf/1809.06636)
 - Koivisto et al. (2004): [Exact Bayesian structure discovery in Bayesian networks](https://static.aminer.org/pdf/PDF/000/984/996/exact_bayesian_structure_discovery_in_bayesian_networks.pdf)
 - Friedman et al. (2003): [Being Bayesian about network structure. A Bayesian approach to structure discovery in Bayesian networks](http://web.cs.iastate.edu/~jtian/cs673/cs673_spring05/references/Friedman-Koller-2003.pdf)
 - Friedman et al. (1999): [Data analysis with Bayesian networks: A bootstrap approach](http://scholar.google.com/scholar_url?hl=en&q=http://w3.cs.huji.ac.il/~nir/Papers/FGW2.pdf&sa=X&scisig=AAGBfm3-UgXALoAdzzXG_hPQAzhuMvYaiQ&oi=scholarr)
@@ -66,4 +67,6 @@ Typical BN models involving binary nodes, arguably the most commonly used type o
 
 # Further ressources
 
-Multiple workshops have been given 
+**Workshops**
+
+- 
