@@ -94,4 +94,101 @@ plot(myres.c$marginals$g1[["g1|b4"]],type="b",xlab="g1|b4",main="Node g1, parame
 ```
 
 # Find the best fitting graphical structure for an additive Bayesian network using an exact search
+
+This dataset comes with abn see ?ex1.dag.data
+
+```r
+mydat <- ex1.dag.data 
+```
+Setup distribution list for each node 
+
+```r
+mydists <- list(b1="binomial", 
+p1="poisson", 
+g1="gaussian", 
+b2="binomial", 
+p2="poisson", 
+b3="binomial", 
+g2="gaussian", 
+b4="binomial", 
+b5="binomial", 
+g3="gaussian" ) 
+```
+
+Set the parent limits nodewise:
+
+```r
+max.par <- list("b1"=4,"p1"=4,"g1"=4,"b2"=4,"p2"=4,"b3"=4,"g2"=4,"b4"=4,"b5"=4,"g3"=4)
+```
+
+Build cache 
+
+```r
+mycache <- buildscorecache(data.df=mydat, 
+data.dists=mydists,
+max.parents=max.par)
+```
+
+Find the globally best DAG. Fit the model and plot it (rquires `Rgraphviz`)
+
+```r
+mp.dag <- mostprobable(score.cache=mycache)
+
+fitabn(dag.m=mp.dag,data.df=mydat,data.dists=mydists)$mlik; ## plot the best model - requires Rgraphviz 
+
+myres <- fitabn(dag.m=mp.dag,data.df=mydat,data.dists=mydists,create.graph=TRUE)
+
+plot(myres$graph)
+```
+
+
 # Find the best fitting graphical structure for an additive Bayesian network using a heuristic search
+
+This dataset comes with abn see ?ex1.dag.data
+
+```r
+mydat <- ex1.dag.data 
+```
+
+Setup distribution list for each node 
+
+```r
+mydists <- list(b1="binomial", 
+p1="poisson", 
+g1="gaussian", 
+b2="binomial", 
+p2="poisson", 
+b3="binomial", 
+g2="gaussian", 
+b4="binomial", 
+b5="binomial", 
+g3="gaussian" );
+```
+
+May take some minutes for buildscorecache() 
+
+Set parent limits 
+
+```r
+max.par<-list("b1"=4,"p1"=4,"g1"=4,"b2"=4,"p2"=4,"b3"=4,"g2"=4,"b4"=4,"b5"=4,"g3"=4); 
+```
+
+Build cache 
+
+```r
+mycache <- buildscorecache(data.df=mydat,data.dists=mydists, dag.banned=ban, dag.retained=retain,max.parents=max.par); 
+```
+
+Repeat but this time have the majority consensus network plotted as the searches progress
+
+```r
+heur.res2 <- search.hillclimber(score.cache=mycache,num.searches=1000,seed=0,verbose=FALSE, trace=TRUE,timing.on=FALSE)
+```
+
+For publication quality output for the consensus network use graphviz
+
+```r
+tographviz(dag.m=heur.res$consensus,data.df=mydat,data.dists=mydists,outfile="graphcon.dot"); 
+```
+
+Then process using graphviz tools e.g. on linux `system("dot -Tpdf -o graphcon.pdf graphcon.dot")` and `system("evince graphcon.pdf")`. Note the .dot file created can be easily edited manually to provide custom shapes, colours etc. 

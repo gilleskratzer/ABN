@@ -29,7 +29,7 @@ However further [libraries](getting_started.md) could be necessary to best profi
 
 # Quickstart
 
-The following [examples](quickstart_examples.md) provide simple illustrations of how to perform data analyses using additive Bayesian networks with abn ( [installation procedure](getting_started.md)). The data sets used here are provided with abn. Many more examples are given at the end of the relevant manual pages in R, e.g. see ?fitabn, ?buildscorecache, ?mostprobable, ?search.hillclimber. More realistic examples are given in [case studies](#case_studies).
+[Simple examples](quickstart_examples.md) provide illustrations of how to perform data analyses using additive Bayesian networks with abn ( [installation procedure](getting_started.md)). The data sets used are provided with abn. Many more examples are given at the end of the relevant manual pages in R, e.g. see ?fitabn, ?buildscorecache, ?mostprobable, ?search.hillclimber. More realistic examples are given in [case studies](#case_studies).
 
 ***
 
