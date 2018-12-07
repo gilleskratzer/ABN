@@ -65,6 +65,8 @@ Typical BN models involving binary nodes, arguably the most commonly used type o
 
 More case studies will be presented as additional features will be added in [abn](https://CRAN.R-project.org/package=abn). The general approach for **structure discovery** is broadly similar and relatively independent of the specific problem data. While Bayesian network modelling is computationally intensive, comparing across potentially large numbers of different models, it should **not** be treated as a black box approach as each individual data set has its own quirks and difficulties.
 
+___
+
 [Case Study One](case_study_one.md)
 
 It gives a fairly typical and complete example for a data problem in which there are sufficiently few variables (around 20 or less) then an exact search is feasible, along with parametric bootstrapping to address overfitting. This uses real (anonymised), as opposed to artificially generated data and as such has some quirks. For example, due to small sample sizes some of the distributions cannot be reliably estimated and it may be sensible to drop one or more variables from the analyses. This example also includes a correction for grouped (correlated data) as a final step, for non-grouped data this step can be ignored.
