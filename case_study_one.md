@@ -132,5 +132,84 @@ Sample code which can be used on a cluster to parallelise searches for parent li
 
 Searches across parent limits 1 through 9 were run and we now examine the results. What we are looking for is simply the model with the best score (the largest – least negative – mlik value), checking that this does not improve when more parents are permitted. This then says we have found a DAG with maximal goodness of fit. What we find (below) is that the goodness of fit does not improve when we increase the parent limit beyond 4.
 
-![](Material/Plot/fig1.png)
+![Figure 1](Material/Plot/fig1.png)
 
+The actual DAG corresponding to the mlik = -8323.9393
+
+![Figure 2](Material/Plot/mp4.png)
+
+
+# Adjustment for overfitting – parametric bootstrapping using MCMC
+
+We have identified a DAG which has the best (maximum) possible goodness of fit according to the log marginal likelihood. This is the standard goodness of fit metric in Bayesian modelling (see [MacKay (1992)](https://www.mitpressjournals.org/doi/abs/10.1162/neco.1992.4.5.720)) and includes an implicit penalty for model complexity. While it is sometimes not always apparent from the technical literature, the log marginal likelihood can easily (and sometimes vastly) overfit with smaller data sets. Of course the difficulty is identifying what constitutes *small* here. In other words using the log marginal likelihood alone (or indeed any of the other usual metrics such as AIC or BIC) is likely to identify structural features, which, if the experiment/study was repeated many times, would likely only be recovered in a tiny faction of instances. Therefore, these features could not be considered robust. Overfitting is an ever present issue in model selection procedures, particular is common approaches such as stepwise regression searches (see [Babyak (2004)](https://www.cs.vu.nl/~eliens/sg/local/theory/overfitting.pdf)).
+
+A well established approach for addressing overfitting is to use parametric bootstrapping (see [Friedman (1999)](http://scholar.google.com/scholar_url?hl=en&q=http://w3.cs.huji.ac.il/~nir/Papers/FGW2.pdf&sa=X&scisig=AAGBfm3-UgXALoAdzzXG_hPQAzhuMvYaiQ&oi=scholarr)). The basic idea is very simple. We take our chosen model and then simulate data sets from this, the same size as the original observed data, and see how often the different structural features are recovered. For example, is it reasonable for our data set of 434 observations to support a complexity of 29 arcs? Parametric bootstrapping is arguably one of the most defensible solutions for addressing overfitting, although it is likely the most computationally demanding, as for each simulated (bootstrap) data set we need to repeat the same exact model search as used with the original data. And we may need to repeat this analysis hundreds (or more) times to get robust results.
+
+Performing parametric bootstrapping is easy enough to code up if done in small manageable chunks. Here we provide a step-by-step guide along with necessary sample code.
+
+### Preliminaries – software needed
+
+We have selected a DAG model and installed MCMC software such as [JAGS](http://mcmc-jags.sourceforge.net/) and WinBUGS are designed for simulating from exactly such models. So all we need to do is to implement the model, in the appropriate JAGS/WinBUGS syntax (which are very similar). Here I am going to use JAGS in preference to WinBUGS or OpenBUGS for no other reason than that is what I am most familiar with.
+
+To implement the selected DAG in JAGS we need write a model definition file (a BUG file) which contains the structure of the dependencies in the model. We also need to provide in here the probability distributions for each and every parameter in the model. Note that in Bayesian modelling the parameter estimates will not generally conform to any standard probability distribution (e.g. Gaussian) unless we are in the very special case of having conjugate priors. The marginal parameter distributions required can be estimated using the *fitabn()* function and then fed into the model definition. We next demonstrate one way of doing this which is to use empirical distributions – in effect we provide JAGS with a discrete distribution over a fine grid which approximates whatever shape of density we need to sample from.
+
+### Generating marginal densities
+
+The function *fitabn()* has functionality to estimate the marginal posterior density for each parameter in the model. The parameters can be estimated one at a time by manually giving a grid (e.g. the x values where we want to evaluate f(x)) or else all together. In the latter case a very simple algorithm will try and work out where to estimate the density. This can work better sometimes and others, although it seems to work fine here for most variables. In order to use these distributions with JAGS we must evaluate the density over an equally spaced grid as otherwise the approach used in JAGS will not sample correctly. The basic command needed here is to estimate marginals, and use an equal grid of 1000 points:
+
+```r
+marg.f <- fitabn(dag.m=mydag,data.df=mydat,data.dists=mydists, compute.fixed=TRUE,n.grid=1000)
+```
+
+All the code in this section (there is quite a bit in total) is provided for download (later).
+
+We should not simply assume that the marginals have been estimated accurately, and they should each be checked using some common sense. Generally speaking, estimating the goodness of fit (mlik) for a DAG comprising of GLM nodes is very reliable. This marginalises out all parameters in the model. Estimating marginal posterior densities for individual parameters, however, can run into trouble as this presupposes that the data contains sufficient information to accurately estimate the "shape" (density) for every individual parameter in the model. This is a stronger requirement than simply being able to estimate an overall goodness of fit metric. If a relatively large number of arcs have been chosen for a node with relatively few observations (i.e. "successes" in a binary node) then this may not be possible, or at least the results are likely to be suspect. Exactly such issues - overfitting - are why we are performing the parametric bootstrapping in the first place but they can also pose some difficulties before getting to this stage.
+
+It is essential to first visually check the marginal densities estimated from *fitabn()*. Something like the following code will create a single pdf file where each page is a separate plot of a marginal posterior density:
+
+```r
+### update 22/02/2014.
+## NOTE: this code only works in the version 0.83+ please use this latest version
+library(Cairo)
+CairoPDF("margplots.pdf")
+for(i in 1:length(marg.f$marginals)){
+cat("processing marginals for node:",nom1<-names(marg.f$marginals)[i],"\n") 
+cur.node <- marg.f$marginals[i] ## get marginal for current node - this is a matrix [x,f(x)] cur.node <- cur.node[[1]] # this is always [[1]] for models without random effects 
+
+for(j in 1:length(cur.node)){ 
+cat("processing parameter:",nom2 <- names(cur.node)[j],"\n") 
+cur.param <- cur.node[[j]]
+plot(cur.param,type="l",main=paste(nom1,":",nom2))} 
+}
+
+dev.off()
+```
+
+These [plots](https://gilleskratzer.github.io/ABN/material/Plot/margplots.pdf) suggests that the first node, b1, has not been estimated very well - e.g. usually the densities should drop to zero at each endpoint which they do not for some of the parameters in b1. The rest of the densities look sensible enough. In case it is just that the built-in choice of x that has not worked well here we manually re-compute each of the odd looking marginals in node b1 to see if that improves the plots:
+
+```r
+
+## node b1 looks odd so re-do with manually chosen intervals
+## (trial and error end points)
+marg.b1.1 <- fitabn(dag.m=mydag,data.df=mydat,data.dists=mydists, compute.fixed=TRUE,marginal.node=1,marginal.param=1, variate.vec=seq(-150,5,len=1000))
+
+```
+
+Moreover, an additional implementation is needed to create the marginal densities in a suitable format for abn:
+
+```r
+### update 05/02/2016
+marnew <- marg.f$marginals[[1]] for(i in 2: length(marg.f$marginals)){ 
+marnew <- c(marnew, marg.f$marginals[[i]])}
+```
+
+The variable *marnew* should replace the *marg.f$marginals*, from the computation of the area, present in the full [code](https://gilleskratzer.github.io/ABN/material/Rcode/get_marginals_n18.R). There are four parameters which need manual intervention (parameter 2 in node b1 seems fine). The new refined [plots](https://gilleskratzer.github.io/ABN/material/Plot/margplots2.pdf) look better. We can now perform an additional common sense check on their reliability. A probability density must integrate to unity (the area under the curve is equal to one). The densities here are estimated numerically and so we would not expect to get exactly one (n.b. no internal standarization is done so we can check this), but if the numerical estimation has worked reliably then we would expect this to be close (e.g. 0.99, 1.01) to one.
+
+
+![Figure 3](Material/Plot/fig1n.png)
+
+From Fig.3 it is obvious that something is wrong with the parameters of node b1 as they are nowhere close to one (n.b their estimation is interdependent on each other since they are all from the same node). In the full code listing this is investigated in some detail by comparing results with R's glm() and also INLA. In short, the marginal parameters for this node cannot be estimated with any accuracy as the node is simply over-parameterised. Looking at the raw data the answer is obvious - variable b1 comprises of 432 "failures" and 2 "successes"! Yet, the exact model selection algorithm choose this node to have 4 covariates (excl. intercept). An excellent example of overfitting. No similar problems are apparent with any other node. So what do we do with node b1? The simplest option is to drop this variable from the analyses. In truth it would probably not have mattered too much if we kept it in and used the marginal densities as is in the bootstrapping - even though very poorly estimated (the area is not a problem as JAGS standardises this itself) - as these arcs would either all be dropped as a result of the parametric bootstrapping, or else some of them dropped and the remainder having such a large confidence intervals (wide posterior) that it not possible to really say anything about their effect. Dropping the variable b1 is the simpler option here which is what we now do.
+
+There is one other parameter - in orange in Fig.3 - node b6 and covariate b4 which requires further investigation. The density looks ok but the area is a little adrift from one. The full code listing does some additional checking and the intercept for this node is estimated very accurately, which suggests that this parameter estimate is probably fine. The difference from one for the area just likely reflects the numerical accuracy error due to the massively wide posterior density (e.g. vanishing small floating point values involved), and so this seems of little concern. The reason for this "difficulty" can again be seen by simply looking at the data - a 2x2 table of b6 and b4 has a zero in it which is the cause of the massive uncertainty in the estimate for parameter b4. In summary, this parameter seems fine for including in the bootstrapping.
+
+Finally, given that we are dropping node b1 we must then repeat all the exact searches. We now find that we only need a maximum of 3 parents.
