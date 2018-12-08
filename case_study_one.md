@@ -185,7 +185,7 @@ plot(cur.param,type="l",main=paste(nom1,":",nom2))}
 dev.off()
 ```
 
-These [plots](https://gilleskratzer.github.io/ABN/material/Plot/margplots.pdf) suggests that the first node, b1, has not been estimated very well - e.g. usually the densities should drop to zero at each endpoint which they do not for some of the parameters in b1. The rest of the densities look sensible enough. In case it is just that the built-in choice of x that has not worked well here we manually re-compute each of the odd looking marginals in node b1 to see if that improves the plots:
+These [plots](source/Plot/margplots.pdf) suggests that the first node, b1, has not been estimated very well - e.g. usually the densities should drop to zero at each endpoint which they do not for some of the parameters in b1. The rest of the densities look sensible enough. In case it is just that the built-in choice of x that has not worked well here we manually re-compute each of the odd looking marginals in node b1 to see if that improves the plots:
 
 ```r
 
