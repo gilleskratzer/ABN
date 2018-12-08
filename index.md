@@ -76,4 +76,9 @@ ___
 
 **Workshops**
 
-- 
+Causality:
+- 4 December 2018, Beate Sick & Gilles Kratzer of the [1st Causality workshop](https://bsick.github.io/causality_workshop/) **talk**, Bayesian Networks meet Observational data. (UZH, Switzerland)
+
+ABN modeling:
+- 29 March 2019, co-organizer of a **workshop** on [Multivariate analysis using Additive Bayesian Networks](https://gilleskratzer.github.io/SVEPM2019/). (Utrecht, Netherland)
+
