@@ -25,7 +25,7 @@ There are two main things which need to be checked in the data before it can be 
 
 To include additional variables in the modeling, for example interaction terms or polynomials, then these must be created manually and included into the data.frame just like any other variable.
 
-# Initial searches for a optimal model
+# Initial searches for an optimal model
 
 Below is some R code which will perform an exact search using a parent limit of at most one parent per node. Similar code can be used to perform searches for higher parent limits (similar code can be downloaded from a link further down this page).
 
@@ -140,7 +140,7 @@ The actual DAG corresponding to the mlik = -8323.9393
 ![](Material/Plot/mp4.png)
 *Figure 2*
 
-# Adjustment for overfitting – parametric bootstrapping using MCMC
+# Adjustment for overfitting
 
 We have identified a DAG which has the best (maximum) possible goodness of fit according to the log marginal likelihood. This is the standard goodness of fit metric in Bayesian modelling (see [MacKay (1992)](https://www.mitpressjournals.org/doi/abs/10.1162/neco.1992.4.5.720)) and includes an implicit penalty for model complexity. While it is sometimes not always apparent from the technical literature, the log marginal likelihood can easily (and sometimes vastly) overfit with smaller data sets. Of course the difficulty is identifying what constitutes *small* here. In other words using the log marginal likelihood alone (or indeed any of the other usual metrics such as AIC or BIC) is likely to identify structural features, which, if the experiment/study was repeated many times, would likely only be recovered in a tiny faction of instances. Therefore, these features could not be considered robust. Overfitting is an ever present issue in model selection procedures, particular is common approaches such as stepwise regression searches (see [Babyak (2004)](https://www.cs.vu.nl/~eliens/sg/local/theory/overfitting.pdf)).
 
@@ -148,7 +148,7 @@ A well established approach for addressing overfitting is to use parametric boot
 
 Performing parametric bootstrapping is easy enough to code up if done in small manageable chunks. Here we provide a step-by-step guide along with necessary sample code.
 
-### Preliminaries – software needed
+### Preliminaries – software
 
 We have selected a DAG model and installed MCMC software such as [JAGS](http://mcmc-jags.sourceforge.net/) and WinBUGS are designed for simulating from exactly such models. So all we need to do is to implement the model, in the appropriate JAGS/WinBUGS syntax (which are very similar). Here I am going to use JAGS in preference to WinBUGS or OpenBUGS for no other reason than that is what I am most familiar with.
 
@@ -176,7 +176,6 @@ CairoPDF("margplots.pdf")
 for(i in 1:length(marg.f$marginals)){
 cat("processing marginals for node:",nom1<-names(marg.f$marginals)[i],"\n") 
 cur.node <- marg.f$marginals[i] ## get marginal for current node - this is a matrix [x,f(x)] cur.node <- cur.node[[1]] # this is always [[1]] for models without random effects 
-
 for(j in 1:length(cur.node)){ 
 cat("processing parameter:",nom2 <- names(cur.node)[j],"\n") 
 cur.param <- cur.node[[j]]
@@ -200,8 +199,10 @@ Moreover, an additional implementation is needed to create the marginal densitie
 
 ```r
 ### update 05/02/2016
-marnew <- marg.f$marginals[[1]] for(i in 2: length(marg.f$marginals)){ 
-marnew <- c(marnew, marg.f$marginals[[i]])}
+marnew <- marg.f$marginals[[1]] 
+for(i in 2: length(marg.f$marginals)){ 
+marnew <- c(marnew, marg.f$marginals[[i]])
+}
 ```
 
 The variable *marnew* should replace the *marg.f$marginals*, from the computation of the area, present in the full [code](https://gilleskratzer.github.io/ABN/material/Rcode/get_marginals_n18.R). There are four parameters which need manual intervention (parameter 2 in node b1 seems fine). The new refined [plots](https://gilleskratzer.github.io/ABN/material/Plot/margplots2.pdf) look better. We can now perform an additional common sense check on their reliability. A probability density must integrate to unity (the area under the curve is equal to one). The densities here are estimated numerically and so we would not expect to get exactly one (n.b. no internal standarization is done so we can check this), but if the numerical estimation has worked reliably then we would expect this to be close (e.g. 0.99, 1.01) to one.
@@ -211,8 +212,36 @@ The variable *marnew* should replace the *marg.f$marginals*, from the computatio
 *Figure 3*
 
 
-From Fig.3 it is obvious that something is wrong with the parameters of node b1 as they are nowhere close to one (n.b their estimation is interdependent on each other since they are all from the same node). In the full code listing this is investigated in some detail by comparing results with R's glm() and also INLA. In short, the marginal parameters for this node cannot be estimated with any accuracy as the node is simply over-parameterised. Looking at the raw data the answer is obvious - variable b1 comprises of 432 "failures" and 2 "successes"! Yet, the exact model selection algorithm choose this node to have 4 covariates (excl. intercept). An excellent example of overfitting. No similar problems are apparent with any other node. So what do we do with node b1? The simplest option is to drop this variable from the analyses. In truth it would probably not have mattered too much if we kept it in and used the marginal densities as is in the bootstrapping - even though very poorly estimated (the area is not a problem as JAGS standardises this itself) - as these arcs would either all be dropped as a result of the parametric bootstrapping, or else some of them dropped and the remainder having such a large confidence intervals (wide posterior) that it not possible to really say anything about their effect. Dropping the variable b1 is the simpler option here which is what we now do.
+From Fig.3 it is obvious that something is wrong with the parameters of node b1 as they are not close to one (n.b their estimation is interdependent on each other since they are all from the same node). In the full code listing this is investigated in some detail by comparing results with R's glm() and also INLA. In short, the marginal parameters for this node cannot be estimated with any accuracy as the node is simply over-parameterised. Looking at the raw data the answer is obvious - variable b1 comprises of 432 "failures" and 2 "successes"! Yet, the exact model selection algorithm choose this node to have 4 covariates (excl. intercept). An excellent example of overfitting. No similar problems are apparent with any other node. So what do we do with node b1? The simplest option is to drop this variable from the analyses. In truth it would probably not have mattered too much if we kept it in and used the marginal densities as is in the bootstrapping - even though very poorly estimated (the area is not a problem as JAGS standardises this itself) - as these arcs would either all be dropped as a result of the parametric bootstrapping, or else some of them dropped and the remainder having such a large confidence intervals (wide posterior) that it not possible to really say anything about their effect. Dropping the variable b1 is the simpler option here which is what we now do.
 
-There is one other parameter - in orange in Fig.3 - node b6 and covariate b4 which requires further investigation. The density looks ok but the area is a little adrift from one. The full code listing does some additional checking and the intercept for this node is estimated very accurately, which suggests that this parameter estimate is probably fine. The difference from one for the area just likely reflects the numerical accuracy error due to the massively wide posterior density (e.g. vanishing small floating point values involved), and so this seems of little concern. The reason for this "difficulty" can again be seen by simply looking at the data - a 2x2 table of b6 and b4 has a zero in it which is the cause of the massive uncertainty in the estimate for parameter b4. In summary, this parameter seems fine for including in the bootstrapping.
+There is one other parameter - in orange in Fig.3 - node b6 and covariate b4 which requires further investigation. The density looks ok but the area is a little adrift from one. The full code listing does some additional checking and the intercept for this node is estimated very accurately, which suggests that this parameter estimate is probably fine. The difference from one for the area just likely reflects the numerical accuracy error due to the massively wide posterior density (e.g. vanishing small floating point values involved), and so this seems of little concern. The reason for this *difficulty* can again be seen by simply looking at the data - a 2x2 table of b6 and b4 has a zero in it which is the cause of the massive uncertainty in the estimate for parameter b4. In summary, this parameter seems fine for including in the bootstrapping.
 
-Finally, given that we are dropping node b1 we must then repeat all the exact searches. We now find that we only need a maximum of 3 parents.
+Finally, given that we are dropping node b1 we must then repeat all the exact searches. We now find that we only need a maximum of 3 parents and the chosen globally optimal DAG is:
+
+![](Material/Plot/mp3.png)
+*Figure 4*
+
+We repeat the estimation of marginal posterior densities just as before but on a slightly different model with 17 nodes. The code used to do this can be found [here](https://gilleskratzer.github.io/ABN/material/Rcode/get_marginals.R). The output from this code is a file called *post_params.R* which contains all the information JAGS needs to sample from the marginal posterior distributions.
+
+### Building BUG model
+
+Once we have the posterior distributions the next step is to actually create the DAG in JAGS. This involves creating a BUG file - a file which contains a definition of our DAG (from Fig.4) in terms which can be understood by JAGS. This can easily be done by hand, if rather tedious, and should be checked carefully for errors (which JAGS will prompt about in any case). The BUG file is [here](https://gilleskratzer.github.io/ABN/material/Rcode/model.bug). This file is fairly heavily commented (it might look complicated but most of it is just copy and paste with minor edit) - the syntax is similar to R - and should be fairly self explanatory. Note that unlike a more usual use of WinBUGS or JAGS we have no data here, we are simply providing JAGS with a set of marginal probability distributions and how they are inter-dependent, and we want it to then generate realisations from the appropriate joint probability distribution. The next step is to tell JAGS to perform this simulation, i.e. generate a single bootstrap data set of size n=434 observations based on the assumption that the DAG is Fig.4 is our true model.
+
+### Single bootstrap analysis
+
+To run JAGS we use four separate files:
+1. the BUG model definition file (model.bug)
+2. a file post_params.R which contains the marginal distributions referred to in the BUG file
+3. a script which runs the MCMC simulation (jags_script.R)
+4. a file which sets of random number seed (inits.R - the value in this must be changed to use different streams of random numbers). 
+
+These four files are contained in this [tarball](https://gilleskratzer.github.io/ABN/material/Rcode/jags_stuff.tar.gz). To run this example extract all the files into one directory and then at the command line type *jags jags_script.R*. In terms of the MCMC component, a burn-in of 100000 is used but as there are no data here this takes no time to run and is likely of little use and could be shorted (it is just included to allow JAGS any internal adaptations or diagnostics that it might need to do). The actual MCMC is then run for 4340 iterations with a thin of 10, which gives 434 observations for each variable - the same size as the original data. The number of MCMC steps and thin is a little arbitrary and this could be run for longer with a bigger thin, but for this data looking at autocorrelation plots for the Gaussian variables there appears no evidence of correlation at a thin of 10 and so this seems sufficient here.
+
+The next step is to automate a single run, e.g. generate a single bootstrap sample and then perform an exact search on this, just as was done for the original data. This [file](https://gilleskratzer.github.io/ABN/material/Rcode/run_jags_single.R) performs a single such analysis in R - just drop this into the same directory as the four JAGS file above. For ease we also call the JAGS script from inside R which might require some messing about with the PATH variable on Windows (e.g. if you open up a cmd prompt then you should be able to type "jags" without needed to give a full path). The output from this is a single matrix (DAG) which is saved in an R workspace called *boot1.RData*.
+
+Once this works on your local machine it is then a case of trying to automate this in the most efficient way, for example for use on a cluster. The crucial thing here is that the random number seed used each time (in the file inits.R) must be changed for each bootstrap simulation otherwise an identical bootstrap data set will be produced!
+
+### Automating for use on a cluster
+
+One fairly crude approach for parallelising the bootstrap analyses across a cluster is to use a similar MPI C wrapper as used in the above exact searches. But now which performs a number of bootstrap analyses on each CPU, where we ask R to create a new seed and script file for use with JAGS in each bootstrap iteration. An R file which can be run (using R CMD BATCH) and peforms 5 bootstrap analyses can be found [here](https://gilleskratzer.github.io/ABN/material/Rcode/five_boot_run.R). The general idea is that you have 200 (say) of these files where each has a different index value on the very first line (index values from 1 through to 200) and each file runs 5 bootstrap analyses on eac cpu and the MPI file distributes the work across 200 cpus. Of course the same method would work for any number of analyses per cpu, and total number of cpus. On a cluster it would make most sense to have as many bootstrap iterations on a single cpu that can be completed within a given queue time (e.g. <24hrs assuming the cluster has a queuing system) and in this case many more than 5 bootstrap iterations per cpu makes better sense since for this data it only take a few minutes per iteration. While it is a bit tedious setting up all the separate R files, they only differ on the first line and so this hardly takes any time. There are far more elegant ways but this is very simple to implement. One thing of note here is that the actual results (the DAG) in each bootstrap iteration are stored in a list called dag[[..]] which can then be combined together once all the runs have finished (in this example giving 1000 DAGs). These 1000 DAGs are then analysed to see how many arcs are present at a given threshold, e.g. 50%. Those arcs that are poorly supported are then deemed potentially unreliable and trimmed off the selected DAG - that in Fig.4. We outline how this might be done in the next section.
+
