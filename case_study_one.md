@@ -132,12 +132,13 @@ Sample code which can be used on a cluster to parallelise searches for parent li
 
 Searches across parent limits 1 through 9 were run and we now examine the results. What we are looking for is simply the model with the best score (the largest – least negative – mlik value), checking that this does not improve when more parents are permitted. This then says we have found a DAG with maximal goodness of fit. What we find (below) is that the goodness of fit does not improve when we increase the parent limit beyond 4.
 
-![Figure 1](Material/Plot/fig1.png)
+![](Material/Plot/fig1.png)
+*Figure 1*
 
 The actual DAG corresponding to the mlik = -8323.9393
 
-![Figure 2](Material/Plot/mp4.png)
-
+![](Material/Plot/mp4.png)
+*Figure 2*
 
 # Adjustment for overfitting – parametric bootstrapping using MCMC
 
@@ -206,7 +207,9 @@ marnew <- c(marnew, marg.f$marginals[[i]])}
 The variable *marnew* should replace the *marg.f$marginals*, from the computation of the area, present in the full [code](https://gilleskratzer.github.io/ABN/material/Rcode/get_marginals_n18.R). There are four parameters which need manual intervention (parameter 2 in node b1 seems fine). The new refined [plots](https://gilleskratzer.github.io/ABN/material/Plot/margplots2.pdf) look better. We can now perform an additional common sense check on their reliability. A probability density must integrate to unity (the area under the curve is equal to one). The densities here are estimated numerically and so we would not expect to get exactly one (n.b. no internal standarization is done so we can check this), but if the numerical estimation has worked reliably then we would expect this to be close (e.g. 0.99, 1.01) to one.
 
 
-![Figure 3](Material/Plot/fig1n.png)
+![](Material/Plot/fig1n.png)
+*Figure 3*
+
 
 From Fig.3 it is obvious that something is wrong with the parameters of node b1 as they are nowhere close to one (n.b their estimation is interdependent on each other since they are all from the same node). In the full code listing this is investigated in some detail by comparing results with R's glm() and also INLA. In short, the marginal parameters for this node cannot be estimated with any accuracy as the node is simply over-parameterised. Looking at the raw data the answer is obvious - variable b1 comprises of 432 "failures" and 2 "successes"! Yet, the exact model selection algorithm choose this node to have 4 covariates (excl. intercept). An excellent example of overfitting. No similar problems are apparent with any other node. So what do we do with node b1? The simplest option is to drop this variable from the analyses. In truth it would probably not have mattered too much if we kept it in and used the marginal densities as is in the bootstrapping - even though very poorly estimated (the area is not a problem as JAGS standardises this itself) - as these arcs would either all be dropped as a result of the parametric bootstrapping, or else some of them dropped and the remainder having such a large confidence intervals (wide posterior) that it not possible to really say anything about their effect. Dropping the variable b1 is the simpler option here which is what we now do.
 
