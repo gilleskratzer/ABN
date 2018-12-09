@@ -33,6 +33,17 @@ However further [libraries](getting_started.md) could be necessary to best profi
 
 ***
 
+# Case studies
+
+More case studies will be presented as additional features will be added in [abn](https://CRAN.R-project.org/package=abn). The general approach for **structure discovery** is broadly similar and relatively independent of the specific problem data. While Bayesian network modelling is computationally intensive, comparing across potentially large numbers of different models, it should **not** be treated as a black box approach as each individual data set has its own quirks and difficulties.
+
+___
+
+- [Case Study One](case_study_one.md) gives a fairly typical and complete example for a data problem in which there are sufficiently few variables (around 20 or less) then an exact search is feasible, along with parametric bootstrapping to address overfitting. This uses real (anonymised), as opposed to artificially generated data and as such has some quirks. For example, due to small sample sizes some of the distributions cannot be reliably estimated and it may be sensible to drop one or more variables from the analyses. This example also includes a correction for grouped (correlated data) as a final step, for non-grouped data this step can be ignored.
+
+
+***
+
 # Literature
 
 **General note**
@@ -41,7 +52,7 @@ Typical BN models involving binary nodes, arguably the most commonly used type o
 
 ***
 
-### Technical articles
+**Technical articles**
 
 - Kratzer et al. (2018): [Comparison between Suitable Priors for Additive Bayesian Networks](https://arxiv.org/pdf/1809.06636)
 - Koivisto et al. (2004): [Exact Bayesian structure discovery in Bayesian networks](https://static.aminer.org/pdf/PDF/000/984/996/exact_bayesian_structure_discovery_in_bayesian_networks.pdf)
@@ -51,24 +62,13 @@ Typical BN models involving binary nodes, arguably the most commonly used type o
 
 ***
 
-### Application articles
+**Application articles**
 
 - Ruchti et al. (2018): [Pododermatitis in group housed rabbit does in Switzerland – prevalence, severity and risk factors](https://www.sciencedirect.com/science/article/pii/S0167587718300813?via%3Dihub)
 - Pittavino et al. (2017): [Comparison between generalized linear modelling and additive Bayesian network; identification of factors associated with the incidence of antibodies against Leptospira interrogans sv Pomona in meat workers in New Zealand](https://www.sciencedirect.com/science/article/pii/S0001706X16308828?via%3Dihub)
 - Hartnack et al. (2017): [Attitudes of Austrian veterinarians towards euthanasia in small animal practice: impacts of age and gender on views on euthanasia](http://download.springer.com/static/pdf/949/art%253A10.1186%252Fs12917-016-0649-0.pdf?originUrl=http%3A%2F%2Fbmcvetres.biomedcentral.com%2Farticle%2F10.1186%2Fs12917-016-0649-0&token2=exp=1455044551~acl=%2Fstatic%2Fpdf%2F949%2Fart%25253A10.1186%25252Fs12917-016-0649-0.pdf*~hmac=e04039a7400eefea35dc05635bccae1688e549b8b0eb36edc0b8fd72caba73fc)
 - Lewis et al. (2012): [Revealing the Complexity of Health Determinants in Resource-poor Settings](http://aje.oxfordjournals.org/content/176/11/1051.full.pdf?keytype=ref&ijkey=zCJD2Zt88XaDYyY)
 - Lewis et al. (2011): [Structure discovery in Bayesian networks: An analytical tool for analysing complex animal health data](http://pdn.sciencedirect.com/science?_ob=MiamiImageURL&_cid=271186&_user=4429&_pii=S0167587711000341&_check=y&_origin=browseVolIssue&_zone=rslt_list_item&_coverDate=2011-06-15&wchp=dGLbVlS-zSkWb&md5=29522e1462a0ac05fe07c787a4cd3d0a&pid=1-s2.0-S0167587711000341-main.pdf)
-
-***
-
-# Case studies
-
-More case studies will be presented as additional features will be added in [abn](https://CRAN.R-project.org/package=abn). The general approach for **structure discovery** is broadly similar and relatively independent of the specific problem data. While Bayesian network modelling is computationally intensive, comparing across potentially large numbers of different models, it should **not** be treated as a black box approach as each individual data set has its own quirks and difficulties.
-
-___
-
-- [Case Study One](case_study_one.md) gives a fairly typical and complete example for a data problem in which there are sufficiently few variables (around 20 or less) then an exact search is feasible, along with parametric bootstrapping to address overfitting. This uses real (anonymised), as opposed to artificially generated data and as such has some quirks. For example, due to small sample sizes some of the distributions cannot be reliably estimated and it may be sensible to drop one or more variables from the analyses. This example also includes a correction for grouped (correlated data) as a final step, for non-grouped data this step can be ignored.
-
 
 ***
 
@@ -88,3 +88,6 @@ ABN modeling:
 
 - 4 October 2018, **talk** in Nutricia (Danone). Multivariable analysis: variable and model selection in system epidemiology. (Utrecht, Netherland)
 
+- 30 May 2018. [Brown Bag Seminar](https://tensorchiefs.github.io/bbs/) in ZHAW. **Presentation**: Bayesian Networks Learning in a Nutshell. (Winterthur, Switzerland)
+
+***
