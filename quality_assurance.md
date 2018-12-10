@@ -311,10 +311,20 @@ In each case above the modes estimated from INLA are completely different – an
 
 ===
 
-
 # QA Case Studies – GLMM Nodes
 
+**General Comment**
+
+Numerical estimation of the marginal likelihood and marginal posterior distributions for model parameters is considerably more difficult in mixed models compared to those containing only fixed effects. Generally speaking, the internal abn code for nodes with a random effect term is very much slower than using INLA. Other than the fact that the internal code implements the conventional Laplace approximation (in contrast to INLA spline-based nested approximations) it also attempts to minimize the size of error in the mlik estimate by comparing mlik values using a 3 pt finite difference approximation for the hessian with those of a 5pt estimate, both of which use adaptive step sizes at both first and second derivative estimates. This takes considerable time but hopefully provides highly reliable estimates as we demonstrate below.
+
+
 **QA Study One – glmm nodes**
+
+This case study uses data set ex3.dag.data which is provided with abn and comprises of 13 binary variables and one grouping factor. We consider an analyses where each node is parameterized as a GLMM and where this has at most four parents. This gives a total of 10322 node-parent combinations against which we compare the internal abn code, with INLA, and also the posterior parameter modes against glmer(). All the results, data and R code files for conducting this case study can be found here.
+
+Figure one shows the mlik comparison between the internal code and INLA. These are clearly in very close agreement, with the median (absolute) relative difference being 0.03 %. Figure two compares the estimated local error in mlik with the difference with INLA – there is no relationship here.
+
+
 **QA Study Two – glmm nodes**
 **QA Study Three – glmm nodes**
 **QA Study Four – glmm nodes**
