@@ -725,9 +725,10 @@ g4|g8 g4|group.precision g4|precision
 $ mlik= 1864.993
 
 ###########################################
+```
 
 In this case study the internal code seems to perform well. INLA appears to struggle here with many of the node-parent combinations, and is a good illustration of why having an alternative to INLA seems necessary in order to ensure reliable and robust mlik values for subsequent structure discovery searches.
-```
+
 ___
 
 **QA Study Four – glmm nodes**
@@ -919,7 +920,9 @@ Below we compare the modes given from *glmer()* with those from INLA and the int
 
 ```r
 #######################################################################
+
 ## 1. glmer()
+
 Generalized linear mixed model fit by the Laplace approximation
 Formula: b1 ~ b2 + (1 | group)
 Random effects:
@@ -927,7 +930,16 @@ Groups Name Variance
 group (Intercept) 1.619 # => group.precision=(1/1.619) = 0.618
 Fixed effects:
 Estimate Std. Error z value Pr(>|z|)
-(Intercept) -2.73022 0.04557 -59.91 < 2e-16 *** b2TRUE -0.43468 0.16591 -2.62 0.00879 ** ####################################################################### ## 2. C (internal code) b1|(Intercept) b1|b2 b1|group.precision -2.7276459 -0.4367608 0.6207554 ####################################################################### ## 3. INLA b1|(Intercept) b1|b2 b1|group.precision -2.3692217 -0.3728149 1.7348308 
+(Intercept) -2.73022 0.04557 -59.91 < 2e-16 *** b2TRUE -0.43468 0.16591 -2.62 0.00879 **
+
+####################################################################### ## 2. C (internal code) 
+
+b1|(Intercept) b1|b2 b1|group.precision -2.7276459 -0.4367608 0.6207554 
+
+####################################################################### ## 3. INLA b1|(Intercept) 
+
+b1|b2 b1|group.precision -2.3692217 -0.3728149 1.7348308 
+
 ```
 
 The intercept and slope parameters are quite different from INLA compared to *glmer()* and the internal code, but what is very considerably different is the precision estimate which differs by almost a factor three. Fig. 19 shows the marginal posterior density produced by INLA and compared with that from the internal code.
