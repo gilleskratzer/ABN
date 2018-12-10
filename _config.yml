@@ -3,3 +3,5 @@ highlighter: rouge
 
 title: Additive Bayesian Network Modelling in R
 description: Bayesian network analysis is a form of probabilistic graphical models which derives from empirical data a directed acyclic graph (DAG)
+
+google_analytics: [UA-86127319-3]
