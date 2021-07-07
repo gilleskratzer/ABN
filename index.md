@@ -64,7 +64,7 @@ Typical BN models involving binary nodes, arguably the most commonly used type o
 
 **Application articles**
 - Guinat et al. (2020) [Biosecurity risk factors for highly pathogenic avian influenza (H5N8) virus infection in duck farms, France](https://onlinelibrary.wiley.com/doi/abs/10.1111/tbed.13672)
-- Hartnack et al. [Additive Bayesian networks for antimicrobial resistance and potential risk factors in non-typhoidal Salmonella isolates from layer hens in Uganda](https://bmcvetres.biomedcentral.com/articles/10.1186/s12917-019-1965-y)
+- Hartnack et al. (2019) [Additive Bayesian networks for antimicrobial resistance and potential risk factors in non-typhoidal Salmonella isolates from layer hens in Uganda](https://bmcvetres.biomedcentral.com/articles/10.1186/s12917-019-1965-y)
 - Ruchti et al. (2019): [Progression and risk factors of pododermatitis in part-time group housed rabbit does in Switzerland](https://www.sciencedirect.com/science/article/pii/S0167587718300813?via%3Dihub)
 - Comin et al. (2019) [Revealing the structure of the associations between housing system, facilities, management and welfare of commercial laying hens using Additive Bayesian Networks](https://www.sciencedirect.com/science/article/abs/pii/S0167587718304665)
 - Ruchti et al. (2018): [Pododermatitis in group housed rabbit does in Switzerland – prevalence, severity and risk factors](https://www.sciencedirect.com/science/article/pii/S0167587718300813?via%3Dihub)
