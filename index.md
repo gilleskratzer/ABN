@@ -53,7 +53,7 @@ Typical BN models involving binary nodes, arguably the most commonly used type o
 ***
 
 **Technical articles**
-
+- Kratzer et al. (2020) [Bayesian Networks modeling applied to Feline Calicivirus infection among cats in Switzerland](https://www.frontiersin.org/articles/10.3389/fvets.2020.00073/full)
 - Kratzer et al. (2018): [Comparison between Suitable Priors for Additive Bayesian Networks](https://arxiv.org/pdf/1809.06636)
 - Koivisto et al. (2004): [Exact Bayesian structure discovery in Bayesian networks](https://static.aminer.org/pdf/PDF/000/984/996/exact_bayesian_structure_discovery_in_bayesian_networks.pdf)
 - Friedman et al. (2003): [Being Bayesian about network structure. A Bayesian approach to structure discovery in Bayesian networks](http://web.cs.iastate.edu/~jtian/cs673/cs673_spring05/references/Friedman-Koller-2003.pdf)
@@ -63,7 +63,10 @@ Typical BN models involving binary nodes, arguably the most commonly used type o
 ***
 
 **Application articles**
-
+- Guinat et al. (2020) [Biosecurity risk factors for highly pathogenic avian influenza (H5N8) virus infection in duck farms, France](https://onlinelibrary.wiley.com/doi/abs/10.1111/tbed.13672)
+- Hartnack et al. [Additive Bayesian networks for antimicrobial resistance and potential risk factors in non-typhoidal Salmonella isolates from layer hens in Uganda](https://bmcvetres.biomedcentral.com/articles/10.1186/s12917-019-1965-y)
+- Ruchti et al. (2019): [Progression and risk factors of pododermatitis in part-time group housed rabbit does in Switzerland](https://www.sciencedirect.com/science/article/pii/S0167587718300813?via%3Dihub)
+- Comin et al. (2019) [Revealing the structure of the associations between housing system, facilities, management and welfare of commercial laying hens using Additive Bayesian Networks](https://www.sciencedirect.com/science/article/abs/pii/S0167587718304665)
 - Ruchti et al. (2018): [Pododermatitis in group housed rabbit does in Switzerland – prevalence, severity and risk factors](https://www.sciencedirect.com/science/article/pii/S0167587718300813?via%3Dihub)
 - Pittavino et al. (2017): [Comparison between generalized linear modelling and additive Bayesian network; identification of factors associated with the incidence of antibodies against Leptospira interrogans sv Pomona in meat workers in New Zealand](https://www.sciencedirect.com/science/article/pii/S0001706X16308828?via%3Dihub)
 - Hartnack et al. (2017): [Attitudes of Austrian veterinarians towards euthanasia in small animal practice: impacts of age and gender on views on euthanasia](http://download.springer.com/static/pdf/949/art%253A10.1186%252Fs12917-016-0649-0.pdf?originUrl=http%3A%2F%2Fbmcvetres.biomedcentral.com%2Farticle%2F10.1186%2Fs12917-016-0649-0&token2=exp=1455044551~acl=%2Fstatic%2Fpdf%2F949%2Fart%25253A10.1186%25252Fs12917-016-0649-0.pdf*~hmac=e04039a7400eefea35dc05635bccae1688e549b8b0eb36edc0b8fd72caba73fc)
@@ -80,7 +83,8 @@ Causality:
 - 4 December 2018, Beate Sick & Gilles Kratzer of the [1st Causality workshop](https://bsick.github.io/causality_workshop/) **talk**, Bayesian Networks meet Observational data. (UZH, Switzerland)
 
 ABN modeling:
-- 29 March 2019, co-organizer of a **workshop** on [Multivariate analysis using Additive Bayesian Networks](https://gilleskratzer.github.io/SVEPM2019/). (Utrecht, Netherland)
+- 07 July 2021, **workshop** at the [UseR!](https://user2021.r-project.org/) Conference on [Additive Bayesian Networks Modeling](https://gilleskratzer.github.io/ABN-UseR-2021/). (Online)
+- 29 March 2019, **workshop** at the SVEPM conference on [Multivariate analysis using Additive Bayesian Networks](https://gilleskratzer.github.io/SVEPM2019/). (Utrecht, Netherland)
 
 ***
 
